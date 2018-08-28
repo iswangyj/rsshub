@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.dao.ItemMapper">
+    <resultMap id="itemMap" type="com.test.domain.Item">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="link" property="link" jdbcType="VARCHAR"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="category" property="category" jdbcType="VARCHAR"/>
+        <result column="pub_date" property="pubDate" jdbcType="TIMESTAMP"/>
+        <result column="comments" property="comments" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="channel_id" property="channelId" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="saveItem" parameterType="com.test.domain.Item">
+        insert into item (title, link,  author, category, pub_date, comments, description, channel_id)
+        values (#{item.title}, #{item.link}, #{item.author}, #{item.category}, #{item.pubDate},
+        #{item.comments}, #{item.description}, #{item.channelId});
+    </insert>
+
+    <delete id="deleteById" parameterType="Integer">
+        delete from item where id = #{id}
+    </delete>
+
+    <delete id="deleteByChannelId" parameterType="Integer">
+        delete from item where channel_id = #{channelId}
+    </delete>
+    <select id="getById" parameterType="Integer" resultType="com.test.domain.Item">
+        select * from item where id = #{id}
+    </select>
+
+    <select id="listByChannelId" resultMap="itemMap">
+        select * from item where channel_id = #{channelId} order by pub_date DESC
+    </select>
+</mapper>

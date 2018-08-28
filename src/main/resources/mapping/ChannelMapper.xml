@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.dao.ChannelMapper">
+    <resultMap id="channelMap" type="com.test.domain.Channel">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" />
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="link" column="link" jdbcType="VARCHAR"/>
+        <result property="copyright" column="copyright" jdbcType="VARCHAR"/>
+        <result property="language" column="language" jdbcType="VARCHAR"/>
+        <result property="generator" column="generator" jdbcType="VARCHAR"/>
+        <result property="pubDate" column="pub_date" jdbcType="DATE"/>
+        <result property="lastBuildDate" column="last_build_date" jdbcType="DATE"/>
+        <result property="positive" column="positive" jdbcType="TINYINT"/>
+    </resultMap>
+    <insert id="saveChannel" useGeneratedKeys="true" >
+        insert into channel (title, description,link, copyright, language, generator, pub_date, last_build_date, positive)
+        values (#{channel.title},#{channel.description} ,#{channel.link}, #{channel.copyright},
+         #{channel.language}, #{channel.generator},#{channel.pubDate}, #{channel.lastBuildDate}, #{channel.positive})
+    </insert>
+    <select id="getById" resultType="com.test.domain.Channel">
+        select * from channel where id = #{id}
+    </select>
+    <delete id="deleteById">
+        delete from channel where id = #{id}
+    </delete>
+    <select id="listAll" resultMap="channelMap">
+        select * from channel
+    </select>
+
+    <update id="updateById" parameterType="com.test.domain.Channel">
+
+        update channel set title = #{channel.title}, description = #{channel.description},
+                            link = #{channel.link}, copyright = #{channel.copyright},
+                            language = #{channel.language}, generator = #{channel.generator},
+                            last_build_date = #{channel.lastBuildDate}, positive = #{channel.positive}
+        where id = #{channel.id}
+    </update>
+</mapper>
